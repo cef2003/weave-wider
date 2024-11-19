@@ -1,0 +1,85 @@
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    position: relative; /* Ensure the header is the reference point for dropdown */
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .nav {
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-links {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Individual navigation links */
+  .nav-links li {
+    margin-left: 20px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #FFD700;
+  }
+  
+  /* Mobile Menu */
+  .menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Responsive Menu Styles */
+  @media screen and (max-width: 768px) {
+    /* Hide the nav-links by default */
+    .nav-links {
+      display: none;
+      flex-direction: column; /* Stack links vertically */
+      background-color: #4CAF50;
+      position: absolute;
+      top: 100%; /* Position the dropdown right below the header */
+      left: 0;
+      width: 100%; /* Take the full width of the screen */
+      text-align: center;
+      padding: 10px 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for better visibility */
+    }
+  
+    /* Show nav-links when nav is active */
+    .nav.active .nav-links {
+      display: flex;
+    }
+  
+    /* Adjust spacing for stacked items */
+    .nav-links li {
+      margin: 10px 0;
+    }
+  
+    /* Ensure the toggle button is visible */
+    .menu-toggle {
+      display: block;
+    }
+  }
+  

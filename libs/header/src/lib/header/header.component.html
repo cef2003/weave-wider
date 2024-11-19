@@ -1,0 +1,18 @@
+<header class="header" [style.background-color]="backgroundColor">
+    <div class="logo">BudgetApp</div>
+    <nav [class.active]="isMenuOpen" class="nav">
+      <ul class="nav-links">
+        <li><a routerLink="/dashboard">Dashboard</a></li>
+        <li><a routerLink="/expense">Expenses</a></li>
+        <li><a routerLink="/budget">Budget</a></li>
+        <li><a routerLink="/forecasting">Forecasting</a></li>
+      </ul>
+    </nav>
+    <button 
+      class="menu-toggle" 
+      (click)="toggleMenu()" 
+      aria-label="Toggle Menu">
+      ☰
+    </button>
+  </header>
+  
