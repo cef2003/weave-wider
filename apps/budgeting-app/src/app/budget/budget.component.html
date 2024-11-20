@@ -1,1 +1,62 @@
-<p>budget works!</p>
+<div class="budget-management">
+    <h1>Budget Management</h1>
+    <div class="budget-table-container">
+      <table class="budget-table">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Planned Amount</th>
+            <th>Actual Spending</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Groceries</td>
+            <td>$500</td>
+            <td>$450</td>
+            <td>
+              <button class="edit-btn" (click)="openEditDialog('Groceries', 500, 450)">Edit</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Rent</td>
+            <td>$1200</td>
+            <td>$1200</td>
+            <td>
+              <button class="edit-btn" (click)="openEditDialog('Rent', 1200, 1200)">Edit</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Utilities</td>
+            <td>$200</td>
+            <td>$180</td>
+            <td>
+              <button class="edit-btn" (click)="openEditDialog('Utilities', 200, 180)">Edit</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Edit Dialog -->
+    <dialog #editDialog class="edit-dialog">
+      <form method="dialog">
+        <h2>Edit Budget</h2>
+        <label for="category">Category</label>
+        <input type="text" id="category" [(ngModel)]="currentBudget.category" readonly />
+  
+        <label for="plannedAmount">Planned Amount</label>
+        <input type="number" id="plannedAmount" [(ngModel)]="currentBudget.plannedAmount" />
+  
+        <label for="actualSpending">Actual Spending</label>
+        <input type="number" id="actualSpending" [(ngModel)]="currentBudget.actualSpending" />
+  
+        <div class="dialog-buttons">
+          <button type="submit" class="save-btn" (click)="saveBudget()">Save</button>
+          <button type="button" class="cancel-btn" (click)="closeDialog(editDialog)">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+  </div>
+  

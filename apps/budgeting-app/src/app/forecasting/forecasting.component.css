@@ -1,0 +1,73 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .forecasting-screen {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .forecasting-screen h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Filter Section */
+  .filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-container label {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .filter-dropdown {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  /* Chart Section */
+  .chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Responsive Styling */
+  @media (max-width: 768px) {
+    .filter-container {
+      flex-direction: column;
+    }
+  
+    .filter-dropdown {
+      width: 100%;
+    }
+  }
+  

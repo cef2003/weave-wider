@@ -1,1 +1,36 @@
-<p>forecasting works!</p>
+<div class="forecasting-screen">
+    <h1>Forecasting</h1>
+    
+    <!-- Filter Section -->
+    <div class="filter-container">
+      <label for="month">Month:</label>
+      <select id="month" class="filter-dropdown">
+        <option value="January">January</option>
+        <option value="February">February</option>
+        <option value="March">March</option>
+        <option value="April">April</option>
+        <option value="May">May</option>
+        <option value="June">June</option>
+        <option value="July">July</option>
+        <option value="August">August</option>
+        <option value="September">September</option>
+        <option value="October">October</option>
+        <option value="November">November</option>
+        <option value="December">December</option>
+      </select>
+  
+      <label for="year">Year:</label>
+      <select id="year" class="filter-dropdown">
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+      </select>
+    </div>
+  
+    <!-- Chart Section -->
+    <div class="chart-container">
+      <canvas id="forecastChart"></canvas>
+    </div>
+  </div>
+  
