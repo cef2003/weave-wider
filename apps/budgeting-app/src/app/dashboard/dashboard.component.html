@@ -2,11 +2,11 @@
     <div class="overview">
       <div class="card">
         <h3>Total Expenses</h3>
-        <p class="amount">$2,500</p>
+        <p class="amount">{{ totalExpenses | currency: "USD":"symbol" }}</p>
       </div>
       <div class="card">
         <h3>Total Budget</h3>
-        <p class="amount">$5,000</p>
+        <p class="amount">{{ totalBudget | currency: "USD":"symbol" }}</p>
       </div>
     </div>
   
