@@ -1,0 +1,27 @@
+[
+    {
+        "month": "November",
+        "year": "2024",
+        "weeklyData": [300, 350, 250, 300]
+    },
+    {
+        "month": "January",
+        "year": "2024",
+        "weeklyData": [300, 400, 250, 300]
+    },
+    {
+        "month": "February",
+        "year": "2024",
+        "weeklyData": [100, 350, 200, 200]
+    },
+    {
+        "month": "March",
+        "year": "2024",
+        "weeklyData": [200, 250, 350, 300]
+    },
+    {
+        "month": "April",
+        "year": "2024",
+        "weeklyData": [500, 450, 250, 375]
+    }
+]

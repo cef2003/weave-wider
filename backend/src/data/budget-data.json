@@ -1,0 +1,17 @@
+[
+  {
+    "category": "Transport",
+    "plannedAmount": 500,
+    "actualSpending": 350
+  },
+  {
+    "category": "Food",
+    "plannedAmount": 200,
+    "actualSpending": 190
+  },
+  {
+    "category": "Misc",
+    "plannedAmount": 300,
+    "actualSpending": 250
+  }
+]

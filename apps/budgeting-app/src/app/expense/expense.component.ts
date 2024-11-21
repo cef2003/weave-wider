@@ -1,25 +1,26 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, DestroyRef, inject, OnInit, ViewChild } from '@angular/core';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { ExpenseData, ExpenseService } from '../../services/expense.service';
 
 @Component({
   selector: 'app-expense',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CurrencyPipe, FormsModule],
   templateUrl: './expense.component.html',
   styleUrl: './expense.component.css',
 })
 export class ExpenseComponent implements OnInit {
-  expenses = [
-    { id: 1, category: 'Food', amount: 100, date: '2024-11-18' },
-    { id: 2, category: 'Transport', amount: 50, date: '2024-11-17' }
-  ];
+  private expenseService = inject(ExpenseService);
+  private destroyRef = inject(DestroyRef);
+
+  expenses: ExpenseData[] = [];
 
   expenseForm: FormGroup;
   isEdit: boolean = false;
   currentExpense: any = null;
 
-  @ViewChild('expenseDialog') expenseDialog: any; // Reference to <dialog>
+  @ViewChild('expenseDialog') expenseDialog: any;
 
   constructor(private fb: FormBuilder) {
     this.expenseForm = this.fb.group({
@@ -29,53 +30,97 @@ export class ExpenseComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.expenseService.getExpenseData().subscribe({
+      next: (data) => {
+        this.expenses = data
+      }
+    });
+  }
 
-  // Open the <dialog>
   openDialog(expense: any = null): void {
     if (expense) {
       this.isEdit = true;
       this.currentExpense = expense;
-      this.expenseForm.patchValue(expense); // Populate form with selected expense data
+      this.expenseForm.patchValue(expense);
     } else {
       this.isEdit = false;
-      this.expenseForm.reset(); // Clear the form for adding a new expense
+      this.expenseForm.reset();
     }
     this.expenseDialog.nativeElement.showModal();
   }
 
-  // Close the <dialog>
   closeDialog(): void {
     this.expenseDialog.nativeElement.close();
   }
-
-  // Handle form submission
+  
+  category: "Transport" | "Food" | "Misc" = "Transport";
+  amount: string = "";
+  date: string = "";
+  
   onSubmit(): void {
-    if (this.expenseForm.valid) {
-      const formData = this.expenseForm.value;
-
+    
       if (this.isEdit) {
-        // Update existing expense
         const index = this.expenses.findIndex(e => e.id === this.currentExpense.id);
         if (index !== -1) {
-          this.expenses[index] = { ...this.currentExpense, ...formData };
+          // this.expenses[index] = { ...this.currentExpense, ...formData };
         }
       } else {
-        // Add new expense
-        const newId = this.expenses.length ? Math.max(...this.expenses.map(e => e.id)) + 1 : 1;
-        this.expenses.push({ id: newId, ...formData });
+        const newId = Number(Math.random() * 100);
+        const newExpense = { id: newId, category: this.category, amount: this.amount, date: this.date };
+        const subscription = this.expenseService.addExpense(newExpense).subscribe({
+          next: (addedExpense) => {
+            this.expenses = [...this.expenses, addedExpense];
+          },
+          error: (err) => {
+            console.error('Error adding new expense:', err);
+          }
+        });
+        this.destroyRef.onDestroy(() => {
+          subscription.unsubscribe();
+        });
       }
 
-      this.closeDialog(); // Close the dialog after saving
+      this.closeDialog();
+  }
+
+  editExpense(id: number) {
+    const expenseToEdit = this.expenses.find(expense => expense.id === id);
+
+    if (expenseToEdit) {
+      this.isEdit = true;
+
+      this.currentExpense = { ...expenseToEdit };
+
+      this.expenseForm.patchValue({
+        category: expenseToEdit.category,
+        amount: expenseToEdit.amount,
+        date: expenseToEdit.date,
+      });
+
+      const dialog = document.querySelector('dialog');
+      if (dialog) {
+        dialog.showModal();
+      }
+    } else {
+      console.error(`Expense with ID ${id} not found.`);
     }
   }
 
-  editExpense(expense: { id: number, category: string, amount: number, date: string }) {
-    
-  }
-
-  // Delete an expense
   deleteExpense(id: number): void {
-    this.expenses = this.expenses.filter(exp => exp.id !== id);
+    const subscription = this.expenseService.deleteExpense(id).subscribe({
+      next: () => {
+        this.expenses = this.expenses.filter(expense => expense.id !== id);
+        console.log(`Expense with ID ${id} deleted successfully.`);
+      },
+      error: (err) => {
+        console.error(`Error deleting expense with ID ${id}:`, err);
+      }
+    });
+  
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
+  
 }
