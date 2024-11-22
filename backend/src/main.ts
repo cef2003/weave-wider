@@ -85,7 +85,7 @@ app.put("/expense/:id", async (req, res) => {
     if (expenseIndex !== -1) {
       expenses[expenseIndex] = { ...expenses[expenseIndex], ...updatedExpense };
 
-      await fs.writeFile("./data/expense-data.json", JSON.stringify(expenses, null, 2));
+      await fs.writeFile("C:/Users/Charbel/Desktop/Weave Wider/weave-wider/backend/src/data/expense-data.json", JSON.stringify(expenses, null, 2));
 
       res.status(200).json({ message: "Expense updated successfully", expense: expenses[expenseIndex] });
     } else {

@@ -20,6 +20,10 @@ export class ExpenseComponent implements OnInit {
   isEdit: boolean = false;
   currentExpense: any = null;
 
+  category: "Transport" | "Food" | "Misc" = "Transport";
+  amount: string = "";
+  date: string = "";
+
   @ViewChild('expenseDialog') expenseDialog: any;
 
   constructor(private fb: FormBuilder) {
@@ -42,10 +46,15 @@ export class ExpenseComponent implements OnInit {
     if (expense) {
       this.isEdit = true;
       this.currentExpense = expense;
-      this.expenseForm.patchValue(expense);
+      
+      this.category = expense.category;
+      this.amount = expense.amount;
+      this.date = expense.date;
     } else {
       this.isEdit = false;
-      this.expenseForm.reset();
+      this.category = "Transport";
+      this.amount = "";
+      this.date = "";
     }
     this.expenseDialog.nativeElement.showModal();
   }
@@ -54,19 +63,36 @@ export class ExpenseComponent implements OnInit {
     this.expenseDialog.nativeElement.close();
   }
   
-  category: "Transport" | "Food" | "Misc" = "Transport";
-  amount: string = "";
-  date: string = "";
-  
   onSubmit(): void {
     
       if (this.isEdit) {
-        const index = this.expenses.findIndex(e => e.id === this.currentExpense.id);
-        if (index !== -1) {
-          // this.expenses[index] = { ...this.currentExpense, ...formData };
-        }
+        const updatedExpense = {
+          ...this.currentExpense,
+          category: this.category,
+          amount: this.amount,
+          date: this.date,
+        };
+
+        const subscription = this.expenseService.editExpense(updatedExpense.id, updatedExpense).subscribe({
+          next: () => {
+            const index = this.expenses.findIndex(
+              (expense) => expense.id === this.currentExpense.id
+            );
+            if (index !== -1) {
+              this.expenses[index] = updatedExpense;
+            }
+            console.log('Expense updated successfully.');
+          },
+          error: (err) => {
+            console.error('Error updating expense:', err);
+          },
+        });
+
+        this.destroyRef.onDestroy(() => {
+          subscription.unsubscribe();
+        });
       } else {
-        const newId = Number(Math.random() * 100);
+        const newId = Math.floor(Math.random() * 100);
         const newExpense = { id: newId, category: this.category, amount: this.amount, date: this.date };
         const subscription = this.expenseService.addExpense(newExpense).subscribe({
           next: (addedExpense) => {
@@ -92,11 +118,10 @@ export class ExpenseComponent implements OnInit {
 
       this.currentExpense = { ...expenseToEdit };
 
-      this.expenseForm.patchValue({
-        category: expenseToEdit.category,
-        amount: expenseToEdit.amount,
-        date: expenseToEdit.date,
-      });
+      // bind data to the form
+      this.category = this.currentExpense.category;
+      this.amount = this.currentExpense.amount;
+      this.date = this.currentExpense.date;
 
       const dialog = document.querySelector('dialog');
       if (dialog) {

@@ -2,19 +2,19 @@
   {
     "id": 1,
     "category": "Transport",
-    "amount": "100",
+    "amount": 250,
     "date": "2024-11-20"
   },
   {
     "id": 2,
     "category": "Food",
-    "amount": "250",
+    "amount": 200,
     "date": "2024-11-19"
   },
   {
-    "id": 67.71295137607312,
+    "id": 86,
     "category": "Misc",
-    "amount": 200,
-    "date": "2024-11-21"
+    "amount": 300,
+    "date": "2024-11-22"
   }
 ]

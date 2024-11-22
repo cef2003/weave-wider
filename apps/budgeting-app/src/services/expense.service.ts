@@ -28,7 +28,7 @@ export class ExpenseService {
       return this.http.put<ExpenseData>(`${this.apiUrl}/expense`, newExpense);
     }
 
-    editExpense(id: number, updatedExpense: Partial<ExpenseData>): Observable<ExpenseData> {
+    editExpense(id: number, updatedExpense: ExpenseData): Observable<ExpenseData> {
       return this.http.put<ExpenseData>(`${this.apiUrl}/expense/${id}`, updatedExpense);
     }
 
